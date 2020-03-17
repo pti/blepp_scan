@@ -1,4 +1,5 @@
 #!/bin/bash
+# Prerequisites: cmake and libble++ (https://github.com/edrosten/libblepp)
 
 if [ ! -d build ]; then
     mkdir build
