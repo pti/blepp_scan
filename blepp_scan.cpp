@@ -36,8 +36,8 @@ void parse_addresses(const char* arg, set<string>& dst) {
     }
 }
 
-void catch_function(int) {
-    cerr << "\nInterrupted!\n";
+void catch_function(int sig) {
+    cerr << "\nCaught signal " << sig << "!\n";
 }
 
 int main(int argc, char** argv)
@@ -84,7 +84,8 @@ int main(int argc, char** argv)
         log_level = LogLevels::Warning;
         HCIScanner scanner(true, filter, type, device);
 
-        // Catch the interrupt signal. If the scanner is not cleaned up properly, then it doesn't reset the HCI state.
+        // Catch the interrupt and terminate signals. If the scanner is not cleaned up properly, then it doesn't reset the HCI state.
+        signal(SIGTERM, catch_function);
         signal(SIGINT, catch_function);
 
         bool done = false;
